@@ -249,7 +249,7 @@ function render(tick) {
 		}
 		theSet = sets[s]
 		currentSet = s;
-		// movementOutput.textContent = theSet.movement;
+		// movementOutput.textContent = theSet.movement; i fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
 		setOutputA.textContent = sets[s-1].set;
 		setOutputB.textContent = theSet.set;
 		countOutputA.textContent = Math.floor(currentCount)-theSet.beginCount+1;
