@@ -239,7 +239,7 @@ function render(tick) {
 			lastDrill.push(marchers[i].drill[d-1])
 		}
 		
-		if (Math.abs(t - audio.currentTime) > .1) {audio.currentTime += (t - audio.currentTime);}
+		if (Math.abs(t - audio.currentTime) > .2) {audio.currentTime += (t - audio.currentTime);}
 		
 		setAll(currentDrill, lastDrill);
 		
