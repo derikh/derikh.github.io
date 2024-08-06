@@ -12,16 +12,30 @@
 	<body>
 		<h1>Hello world!a</h1>
 		<p>Welcome to my Testing Site!</p>
+		
 		<div id="Field" style="position: absolute;">
 			<canvas id="Field_Lines" width="900" height="480" 
 				style="border:3px solid #000000; position: absolute; left: 70px; top: 0; z-index: 0;"></canvas>
 			<canvas id="Field_Drill" width="900" height="480" 
 				style="border:3px solid #000000; position: absolute; left: 70px; top: 0; z-index: 1;"></canvas>
+			<canvas id="Field_Mouse" width="900" height="480" 
+				style="border:3px solid #000000; position: absolute; left: 70px; top: 0; z-index: -1;"></canvas>
 		</div>
-		<p>Movement <span id="movement">1</span></p>
-		<p>Set <span id="setA">1</span> to <span id="setB">2</span></p>
+
+		<button onclick="start()">Start</button>
+		<button onclick="incStart('subtract')">-</button>
+		<button onclick="incStart('add')">+</button>
+		<p>Starting Set: <span id="sSet">1</span></p>
+		
+		<p> <span id="movement"></span></p>
+		<p>Set <span id="setA">N/A</span> to <span id="setB">N/A</span></p>
+		<p>Count <span id="countA">N/A</span> out of <span id="countB">N/A</span></p>
+		<p>Total Counts: <span id="Tcount">N/A</span></p>
+		
+		<p id="marcher" style="border:1px solid #000000; position: absolute; z-index: 2;"></p>
+		
 		<script src="classes.js"></script>
-		<script src="BtS Drill.js"></script>
+		<script src="A Souls Search Drill.js"></script>
 		<script src="app.js"></script>
 	</body>
 </html>
