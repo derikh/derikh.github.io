@@ -1,25 +1,17 @@
-const canvas = document.getElementById("Field_Drill");
-const ctx = canvas.getContext("2d");
+let audio = new Audio('Full Ensemble-MET.mp3'); // give it time to load or smth idk
 
-function findCoordX(tis) {
-	let coordX = tis.sideSteps*canvas.width/160;
-	if (tis.inOut === "Outside") {coordX *= -1;}
-	coordX += tis.yardLine*canvas.width/100;
-	if (tis.leftRight === "Right") {coordX = canvas.width-coordX;}
+function findCoordX(dot) {
+	let coordX = dot.sideSteps*22.5 * (dot.inOut === "Outside" ? -1 : 1);
+	coordX += dot.yardLine*36;
+	coordX = dot.leftRight === "Right" ? 3600-coordX : coordX;
 	return coordX;
 }
 
-function findCoordY(tis) {
-	let coordY = canvas.height;
-	if (tis.homeVisitor === "Visitor") {
-		coordY = 0;
-		if (tis.line === "Hash") {coordY += canvas.height/3;}
-	} else {
-		if (tis.line === "Hash") {coordY -= canvas.height/3;}
-	}
-	let tStep = tis.frontSteps*(canvas.height/256*3);
-	if (tis.frontBehind === "Behind") {tStep *= -1;}
-	return (coordY+tStep);
+function findCoordY(dot) {
+	let coordY = dot.frontSteps*22.5*yCorrectionConstant * (dot.frontBehind === "Front" ? -1 : 1);
+	coordY += dot.line === "Hash" ? 640 : 0;
+	coordY = dot.homeVisitor === "Home" ? 1920-coordY : coordY;
+	return coordY;
 }
 
 class Dot {
@@ -32,8 +24,8 @@ class Dot {
 		this.set = set;
 		this.counts = counts;
 		
-		this.beginCount = 1;
-		this.endCount = counts+1;
+		this.beginCount = 0;
+		this.endCount = 0;
 		
 		if (LR === "On") {
 			line = FB;
@@ -76,19 +68,36 @@ class Dot {
 		this.CoordY = findCoordY(this);
 	}
 	
-	
 	toString() {
-		"Set: 4. Counts: 8. Right: 2.0 steps outside 50 yd ln. 8.0 steps in front of Home Hash (HS)"
+		return "Set: " + this.set + ". Counts: " + this.counts + ". " + this.leftRight + ": " + this.sideSteps + " steps " + this.inOut + " " + this.yardLine + " yd ln. " + this.frontSteps + " steps " + this.frontBehind + " " + this.homeVisitor + " " + this.line;
+		"Set: 4. Counts: 8. Right: 2.0 steps outside 50 yd ln. 8.0 steps in front of Home Hash (HS)";
 	}
 }
 
-let wantedMarcher = "A1";
-let wantedSubset = 1;
+let wantedMarcher;
+let wantedSubset;
 function findMarcher(object) {
 	return object.marcher = wantedMarcher;
 }
 function findSubset(object) {
 	return object.subset = wantedSubset;
+}
+
+class Marcher {
+	constructor(label, name, instrument) {
+		this.label = label;
+		this.name = name;
+		this.instrument = instrument;
+		this.drill = [];
+		
+		this.currentDot = 0;
+		this.currentX = 0;
+		this.currentY = 0;
+		this.circle = new Path2D();
+	}
+	addDot(dot) {
+		this.drill.push(dot);
+	}
 }
 
 class Set {
@@ -102,10 +111,10 @@ class Set {
 		this.drill = [];
 		this.len = 60*counts / tempo;
 		
-		this.beginCount = 1;
-		this.endCount = counts+1;
+		this.beginCount = 0;
+		this.endCount = 0;
 		this.beginTime = 0;
-		this.endTime = this.len;
+		this.endTime = 0;
 	}
 	
 	addDot(dot) {
@@ -113,30 +122,20 @@ class Set {
 		
 		let highestSubsets = {};
 		for (let i = 0; i < this.fullDrill.length; i++) {
-			if (highestSubsets[this.fullDrill[i].marcher] == null || this.fullDrill[i].subset > highestSubsets[this.fullDrill[i].marcher]) {
-				highestSubsets[this.fullDrill[i].marcher] = this.fullDrill[i].subset;
+			let dot = this.fullDrill[i];
+			if (highestSubsets[dot.marcher] === undefined || dot.subset > highestSubsets[dot.marcher]) {
+				highestSubsets[dot.marcher] = dot.subset;
 			}
 		}
 		
 		let newDrill = [];
 		for (let i = 0; i < this.fullDrill.length; i++) {
-			if (this.fullDrill[i].subset === highestSubsets[this.fullDrill[i].marcher]) {
-				newDrill.push(this.fullDrill[i])
+			let dot = this.fullDrill[i];
+			if (dot.subset === highestSubsets[dot.marcher]) {
+				newDrill.push(dot);
 			}
 		}
 		this.drill = newDrill;
 	}
 }
 
-class Marcher {
-	constructor(label, name, instrument) {
-		this.label = label;
-		this.name = name;
-		this.instrument = instrument;
-		this.drill = [];
-	}
-	
-	addDot(dot) {
-		this.drill.push(dot);
-	}
-}
