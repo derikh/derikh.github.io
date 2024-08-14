@@ -5,38 +5,57 @@
 		<style type="text/css">
 			body {
 				font-family: Verdana, sans-serif;
-				background-color: azure;
+				background-color: rgb(232, 255, 248);
+				padding: 0;
+				margin: 0 auto;
+				overflow: hidden;
 			}
+			
 		</style>
 	</head>
 	<body>
-		<h1>Hello world!a</h1>
-		<p>Welcome to my Testing Site!</p>
-		
 		<div id="Field" style="position: absolute;">
-			<canvas id="Field_Lines" width="900" height="480" 
-				style="border:3px solid #000000; position: absolute; left: 70px; top: 0; z-index: 0;"></canvas>
-			<canvas id="Field_Drill" width="900" height="480" 
-				style="border:3px solid #000000; position: absolute; left: 70px; top: 0; z-index: 1;"></canvas>
-			<canvas id="Field_Mouse" width="900" height="480" 
-				style="border:3px solid #000000; position: absolute; left: 70px; top: 0; z-index: -1;"></canvas>
+			<canvas id="Field_Markings" width="3600" height="1920" 
+				style="position: absolute; z-index: 0;"></canvas>
+			<canvas id="Field_Pathways" width="3600" height="1920" 
+				style="position: absolute; z-index: 1;"></canvas>
+			<canvas id="Field_Mouse" width="3600" height="1920" 
+				style="position: absolute; z-index: 2;"></canvas>
+			<canvas id="Field_Drill" width="3600" height="1920" 
+				style="position: absolute; z-index: 3;"></canvas>
 		</div>
+		
+		
+		
+		<div id="Box" style="background-color: azure; border: 3px solid #000000; position: fixed; left: 10px; top: 10px; z-index: 100">
+			<h1>Hello world!a</h1>
+			<p>Welcome to my Testing Site!</p>
 
-		<button onclick="start()">Start</button>
-		<button onclick="incStart('subtract')">-</button>
-		<button onclick="incStart('add')">+</button>
-		<p>Starting Set: <span id="sSet">1</span></p>
-		
-		<p> <span id="movement"></span></p>
-		<p>Set <span id="setA">N/A</span> to <span id="setB">N/A</span></p>
-		<p>Count <span id="countA">N/A</span> out of <span id="countB">N/A</span></p>
-		<p>Total Counts: <span id="Tcount">N/A</span></p>
-		<p>Hover over the dots to see what marchers they are!</p>
-		
-		<p id="marcher" style="border:1px solid #000000; position: absolute; z-index: 2;"></p>
+			<button onclick="start()">Start</button>
+			<button onclick="incStart(-1)">-</button>
+			<button onclick="incStart(1)">+</button>
+			<p>Starting Set: <span id="sSet">1</span></p>
+			
+			<p>Movement <span id="movement">N/A</span></p>
+			<p>Set <span id="setA">N/A</span> to <span id="setB">N/A</span></p>
+			<p>Count <span id="countA">N/A</span> out of <span id="countB">N/A</span></p>
+			<p>Total Counts: <span id="Tcount">N/A</span></p>
+			<p>Hover over the dots to see <br>
+				what marchers they are!
+			</p>
+			<p>Click the dots to see <br>
+				their pathways!
+			</p>
+		</div>
+		<script src="settings.js"></script>
+		<div id="Settings" style="background-color: azure; border: 3px solid #000000; position: fixed; left: 10px; z-index: 101">
+			<input type="checkbox">
+		</div>
 		
 		<script src="classes.js"></script>
-		<script src="Drill.js"></script>
-		<script src="app.js"></script>
+		<script src="A Souls Search Drill.js"></script>
+		<script src="setup.js"></script>
+		<script src="graphics.js"></script>
+		<script src="run.js"></script>
 	</body>
 </html>
