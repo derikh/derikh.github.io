@@ -3,7 +3,7 @@ const speed = 1;
 
 const fluidTempoAccuracy = 4; // for ritardando, accelerando, etc. (idk if we need this)
 
-const audioDelayLeniency = .2;
+const audioDelayLeniency = .25;
 
 const yCorrectionConstant = (320/22.5)/14; // it's a common misconception that there are 14 steps between the sideline and hash; it's actually ~14.2. 🤓👆
 
